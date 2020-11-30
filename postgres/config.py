@@ -1,8 +1,8 @@
-#!/usr/bin/python
 from configparser import ConfigParser
 
-
-def config(filename='postgres/database.ini', section='postgresql'):
+# Project path not working... TODO: Fix file path to relative
+database_ini_path = "C:/Users/paris/OneDrive/Documents/Projects/Potamoi/postgres/database.ini"
+def config(filename=database_ini_path, section='postgresql'):
     # create a parser
     parser = ConfigParser()
     # read config file

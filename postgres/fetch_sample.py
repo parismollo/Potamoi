@@ -2,7 +2,7 @@ import psycopg2
 from config import config
 
 def get_sample(table):
-    """ query sample data from the rainfall table """
+    """ query sample data from tables """
     conn = None
     try:
         params = config()

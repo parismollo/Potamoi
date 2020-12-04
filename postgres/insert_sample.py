@@ -5,7 +5,7 @@ import random
 import time
 
 # Testing postgres
-def insert_data(values, table): # TODO: add this feature to other tables
+def insert_data(values, table):
     """ insert a new sample into table """
     sql_query = f"INSERT INTO {table} (ID, VALUE) VALUES (%s, %s)"
     conn = None

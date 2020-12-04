@@ -44,5 +44,5 @@ def create_tables():
             conn.close()
 
 
-if __name__ == '__main__':
-    create_tables()
+# if __name__ == '__main__':
+#     create_tables()

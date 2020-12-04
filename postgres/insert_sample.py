@@ -5,10 +5,9 @@ import random
 import time
 
 # Testing postgres
-def insert_rainfall_sample(values): # TODO: add this feature to other tables
-    """ insert a new sample into the rainfall table """
-    sql_query = """ INSERT INTO rainfall (ID, VALUE)
-        VALUES (%s, %s)"""
+def insert_data(values, table): # TODO: add this feature to other tables
+    """ insert a new sample into table """
+    sql_query = f"INSERT INTO {table} (ID, VALUE) VALUES (%s, %s)"
     conn = None
     try:
         params = config()
@@ -26,12 +25,18 @@ def insert_rainfall_sample(values): # TODO: add this feature to other tables
             conn.close()
             print("PostgreSQL connection is closed")
 
-# if __name__ == '__main__':
-#     values = []
-#     for i in range(50):
-#         dt = datetime.now()
-#         values.append((dt, round(random.uniform(1.8, 25.39), 2)))
-#         time.sleep(1)
-#
-#     insert_rainfall_sample(values)
-#     print("Database updated!")
+if __name__ == '__main__':
+    tables = ["rainfall", "soil_moisture", "river_stage"]
+    values = []
+    for i in range(50):
+        dt = datetime.now()
+        values.append((dt, round(random.uniform(1.8, 25.39), 2)))
+        # time.sleep(1)
+
+    print("Select the table: ")
+    for t, r in zip(tables, range(0, 3)):
+        print(r, end=" - ")
+        print(t, end=" ")
+    num = int(input("\n0, 1 or 2?: "))
+    insert_data(values, tables[num])
+    print(f"{tables[num]} updated!")

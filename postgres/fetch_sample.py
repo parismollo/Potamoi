@@ -1,5 +1,5 @@
 import psycopg2
-from config import config
+from postgres.config import config
 
 def get_sample(table):
     """ query sample data from tables """
@@ -23,11 +23,11 @@ def get_sample(table):
         if conn is not None:
             conn.close()
 
-if __name__ == '__main__':
-    tables = ["rainfall", "soil_moisture", "river_stage"]
-    print("Select the table: ")
-    for t, r in zip(tables, range(0, 3)):
-        print(r, end=" - ")
-        print(t, end=" ")
-    num = int(input("\n0, 1 or 2?: "))
-    get_sample(tables[num])
+# if __name__ == '__main__':
+#     tables = ["rainfall", "soil_moisture", "river_stage"]
+#     print("Select the table: ")
+#     for t, r in zip(tables, range(0, 3)):
+#         print(r, end=" - ")
+#         print(t, end=" ")
+#     num = int(input("\n0, 1 or 2?: "))
+#     get_sample(tables[num])

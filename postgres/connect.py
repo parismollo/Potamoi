@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import psycopg2
-from config import config
+from postgres.config import config
 
 def connect():
     """ Connect to the PostgreSQL database server """

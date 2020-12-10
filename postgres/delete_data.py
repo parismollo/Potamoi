@@ -1,6 +1,6 @@
-
+import os
 import psycopg2
-from config import config
+from postgres.config import config
 
 def reset_table(table):
     """ delete all rows from table """
@@ -25,11 +25,18 @@ def reset_table(table):
             conn.close()
     print(f"The {table} table is now empty.")
 
-if __name__ == '__main__':
-    tables = ["rainfall", "soil_moisture", "river_stage"] #TODO: create a function for this part, it can be reused elsewhere
-    print("Select the table: ")
-    for t, r in zip(tables, range(0, 3)):
-        print(r, end=" - ")
-        print(t, end=" ")
-    num = int(input("\n0, 1 or 2?: "))
-    reset_table(tables[num])
+
+def delete_csv(path):
+    if os.path.exists(path):
+        os.remove(path)
+    else:
+        print("The file does not exist")
+
+# if __name__ == '__main__':
+#     tables = ["rainfall", "soil_moisture", "river_stage"] #TODO: create a function for this part, it can be reused elsewhere
+#     print("Select the table: ")
+#     for t, r in zip(tables, range(0, 3)):
+#         print(r, end=" - ")
+#         print(t, end=" ")
+#     num = int(input("\n0, 1 or 2?: "))
+#     reset_table(tables[num])

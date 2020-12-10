@@ -1,8 +1,8 @@
 import psycopg2
-from config import config
+from postgres.config import config
 from datetime import datetime
 import random
-import time
+# import time
 
 # Testing postgres
 def insert_data(values, table):
@@ -23,20 +23,20 @@ def insert_data(values, table):
     finally:
         if conn is not None:
             conn.close()
-            print("PostgreSQL connection is closed")
+            # print("PostgreSQL connection is closed")
 
-if __name__ == '__main__':
-    tables = ["rainfall", "soil_moisture", "river_stage"]
-    values = []
-    for i in range(50):
-        dt = datetime.now()
-        values.append((dt, round(random.uniform(1.8, 100.99), 2)))
-        # time.sleep(1)
-
-    print("Select the table: ")
-    for t, r in zip(tables, range(0, 3)):
-        print(r, end=" - ")
-        print(t, end=" ")
-    num = int(input("\n0, 1 or 2?: "))
-    insert_data(values, tables[num])
-    print(f"{tables[num]} updated!")
+# if __name__ == '__main__':
+#     tables = ["rainfall", "soil_moisture", "river_stage"]
+#     values = []
+#     for i in range(50):
+#         dt = datetime.now()
+#         values.append((dt, round(random.uniform(1.8, 100.99), 2)))
+#         # time.sleep(1)
+#
+#     print("Select the table: ")
+#     for t, r in zip(tables, range(0, 3)):
+#         print(r, end=" - ")
+#         print(t, end=" ")
+#     num = int(input("\n0, 1 or 2?: "))
+#     insert_data(values, tables[num])
+#     print(f"{tables[num]} updated!")

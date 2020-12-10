@@ -30,7 +30,7 @@ if __name__ == '__main__':
     values = []
     for i in range(50):
         dt = datetime.now()
-        values.append((dt, round(random.uniform(1.8, 25.39), 2)))
+        values.append((dt, round(random.uniform(1.8, 100.99), 2)))
         # time.sleep(1)
 
     print("Select the table: ")

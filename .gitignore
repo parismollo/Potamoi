@@ -125,7 +125,6 @@ dmypy.json
 .pyre/
 
 # Database
-database.ini
 results_rainfall.csv
 results_soil_moisture.csv
 results_river_stage.csv

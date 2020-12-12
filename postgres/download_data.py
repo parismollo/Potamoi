@@ -11,7 +11,7 @@ def download_data(table):
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
         output_query = f"COPY {table} TO STDOUT WITH CSV HEADER"
-        file_name = f"results_{table}.csv"
+        file_name = f"test/results_{table}.csv"
         with open(file_name, "w") as f:
             cur.copy_expert(output_query, f)
         cur.close()
@@ -20,7 +20,12 @@ def download_data(table):
     finally:
         if conn is not None:
             conn.close()
-            print("PostgreSQL connection is closed")
+            # print("PostgreSQL connection is closed")
+
+
+def download_all_tables(tables):
+    for table in tables:
+        download_data(table)
 
 # if __name__ == '__main__':
 #     tables = ["rainfall", "soil_moisture", "river_stage"]
@@ -29,4 +34,4 @@ def download_data(table):
 #         print(r, end=" - ")
 #         print(t, end=" ")
 #     num = int(input("\n0, 1 or 2?: "))
-#     download_data(tables[num])
+#

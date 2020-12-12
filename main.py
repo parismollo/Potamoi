@@ -1,45 +1,22 @@
-from postgres.insert_sample import insert_data
-from tqdm import tqdm
-import time
-from datetime import datetime
+from postgres.data_gen import start_data_gen
 from postgres.fetch_sample import get_sample
-from postgres.delete_data import reset_table, delete_csv
-from postgres.download_data import download_data
-import random
+from postgres.delete_data import reset_all_tables, delete_all_csv
+from postgres.download_data import download_all_tables
+from typing import List
 
+def validate_csv() -> bool:
+    return True
 
-#  program that generates fake data
-#  create a csv every one hour
-#  load csv - validate data
-#  send validated data to potamoi database
-#  remove local csv
-#   repeat.
+def main():
+    tables: List[str] = ["rainfall", "soil_moisture", "river_stage"]
+    paths:  List[str] = ["results_rainfall.csv", "results_river_stage.csv", "results_soil_moisture.csv"]
+    target = int(input("For How long you'd like to generate data? (in seconds): "))
+    start_data_gen(target)
+    download_all_tables(tables)
+    reset_all_tables(tables)
+    if validate_csv():
+        # send_data()
+        delete_all_csv(paths)
 
-TABLES = ["rainfall", "soil_moisture", "river_stage"]
-
-
-def generate_values():
-    values = []
-    dt = datetime.now()
-    for s in range(0, 100):
-        values.append((dt, round(random.uniform(1.8, 100.99), 2)))
-    return values
-
-def insert_values():
-    # TODO: check tables
-    # insert data
-    for table in TABLES:
-        values = generate_values()
-        insert_data(values, table)
-
-# def main():
-#     for second in tqdm(range(5)):
-#         insert_values()
-#         # time.sleep(1)
-#     for table in TABLES:
-#         get_sample(table)
-#         download_data(table)
-#         reset_table(table)
-#
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()

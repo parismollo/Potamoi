@@ -25,6 +25,10 @@ def reset_table(table):
             conn.close()
     print(f"The {table} table is now empty.")
 
+def reset_all_tables(tables):
+    for table in tables:
+        reset_table(table)
+
 
 def delete_csv(path):
     if os.path.exists(path):
@@ -33,6 +37,11 @@ def delete_csv(path):
     else:
         print("The file does not exist")
 
+
+def delete_all_csv(paths):
+    for path in paths:
+        delete_csv(path)
+        
 # if __name__ == '__main__':
 #     tables = ["rainfall", "soil_moisture", "river_stage"] #TODO: create a function for this part, it can be reused elsewhere
 #     print("Select the table: ")

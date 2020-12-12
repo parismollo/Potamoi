@@ -11,7 +11,7 @@ def download_data(table):
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
         output_query = f"COPY {table} TO STDOUT WITH CSV HEADER"
-        file_name = f"test/results_{table}.csv"
+        file_name = f"data/results_{table}.csv"
         with open(file_name, "w") as f:
             cur.copy_expert(output_query, f)
         cur.close()

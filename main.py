@@ -9,14 +9,14 @@ def validate_csv() -> bool:
 
 def main():
     tables: List[str] = ["rainfall", "soil_moisture", "river_stage"]
-    paths:  List[str] = ["results_rainfall.csv", "results_river_stage.csv", "results_soil_moisture.csv"]
+    paths:  List[str] = ["data/results_rainfall.csv", "data/results_river_stage.csv", "data/results_soil_moisture.csv"]
     target = int(input("For How long you'd like to generate data? (in seconds): "))
     start_data_gen(target)
     download_all_tables(tables)
     reset_all_tables(tables)
-    if validate_csv():
-        # send_data()
-        delete_all_csv(paths)
+    # if validate_csv():
+    #     # send_data()
+    #     delete_all_csv(paths)
 
 if __name__ == '__main__':
     main()

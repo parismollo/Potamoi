@@ -14,9 +14,9 @@ def main():
     start_data_gen(target)
     download_all_tables(tables)
     reset_all_tables(tables)
-    if validate_csv():
-        # send_data()
-        delete_all_csv(paths)
+    # if validate_csv():
+    #     # send_data()
+    #     delete_all_csv(paths)
 
 if __name__ == '__main__':
     main()

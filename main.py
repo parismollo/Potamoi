@@ -40,6 +40,6 @@ def insert_values():
 #         get_sample(table)
 #         download_data(table)
 #         reset_table(table)
-
+#
 # if __name__ == '__main__':
 #     main()

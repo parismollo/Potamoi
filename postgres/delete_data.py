@@ -28,6 +28,7 @@ def reset_table(table):
 
 def delete_csv(path):
     if os.path.exists(path):
+        print(f"File {path} removed")
         os.remove(path)
     else:
         print("The file does not exist")

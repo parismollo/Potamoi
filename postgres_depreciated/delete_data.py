@@ -30,17 +30,17 @@ def reset_all_tables(tables):
         reset_table(table)
 
 
-def delete_csv(path):
-    if os.path.exists(path):
-        print(f"\nFile {path} removed")
-        os.remove(path)
-    else:
-        print(f"The file {path} does not exist")
-
-
-def delete_all_csv(paths):
-    for path in paths:
-        delete_csv(path)
+# def delete_csv(path):
+#     if os.path.exists(path):
+#         print(f"\nFile {path} removed")
+#         os.remove(path)
+#     else:
+#         print(f"The file {path} does not exist")
+#
+#
+# def delete_all_csv(paths):
+#     for path in paths:
+#         delete_csv(path)
 
 # if __name__ == '__main__':
 #     tables = ["rainfall", "soil_moisture", "river_stage"] #TODO: create a function for this part, it can be reused elsewhere

@@ -19,7 +19,7 @@ def check_target_cols(target, path):
     return is_valid
 
 
-def validate_data(max_size=500, data_dir="data/", accepted_file_formats = (".json", ".csv"), target=["value", "id"]):
+def validate_data(max_size=10000, data_dir="data/", accepted_file_formats = (".json", ".csv"), target=["value", "id"]):
     valid_files = []
     try:
         directory_path = os.listdir(data_dir)
@@ -30,9 +30,9 @@ def validate_data(max_size=500, data_dir="data/", accepted_file_formats = (".jso
                     valid_files.append(path)
                     print(f"File {path} has been validated.")
                 else:
-                    print(f"File {path} not valid")
+                    print(f"File {path} not valid (check file columns)")
             else:
-                print(f"File {path} not valid")
+                print(f"File {path} not valid (check format or size)")
     except Exception as e:
         print(e)
 

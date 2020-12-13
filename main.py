@@ -11,10 +11,12 @@ def main():
     print("\n----------------Validating files----------------")
     valid_files = validate_data()
     if len(valid_files) != 0:
-        # send_data(valid_files)
-        print("\n----------------Resetting data folder----------------")
+        # store_data(valid_files) - store data on our database
+        # final_data = clean_data(valid_files) - cleaning process
+        # send_user_data(user, final_data)
         resp = input("Delete csv files [y/n]: ")
         if resp =="y" or resp == "Y":
+            print("\n----------------Resetting data folder----------------")
             delete_all_csv()
         else:
             print("CSV files available at data/")

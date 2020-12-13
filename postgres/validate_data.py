@@ -28,6 +28,7 @@ def validate_data(max_size=500, data_dir="data/", accepted_file_formats = (".jso
             if filename.endswith(accepted_file_formats) and os.path.getsize(path) <= max_size:
                 if check_target_cols(target, path):
                     valid_files.append(path)
+                    print(f"File {path} has been validated.")
                 else:
                     print(f"File {path} not valid")
             else:

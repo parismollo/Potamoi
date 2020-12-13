@@ -32,16 +32,16 @@ def reset_all_tables(tables):
 
 def delete_csv(path):
     if os.path.exists(path):
-        print(f"File {path} removed")
+        print(f"\nFile {path} removed")
         os.remove(path)
     else:
-        print("The file does not exist")
+        print(f"The file {path} does not exist")
 
 
 def delete_all_csv(paths):
     for path in paths:
         delete_csv(path)
-        
+
 # if __name__ == '__main__':
 #     tables = ["rainfall", "soil_moisture", "river_stage"] #TODO: create a function for this part, it can be reused elsewhere
 #     print("Select the table: ")

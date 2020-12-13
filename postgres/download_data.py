@@ -14,6 +14,7 @@ def download_data(table):
         file_name = f"data/results_{table}.csv"
         with open(file_name, "w") as f:
             cur.copy_expert(output_query, f)
+            print(f"The data from table {table} is now available at {file_name}")
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

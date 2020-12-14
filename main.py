@@ -2,6 +2,7 @@ from data_fetching.data_gen import generate_data_files
 from data_fetching.delete_data_files import delete_all_csv
 from typing import List
 from data_fetching.validate_data import validate_data
+from api.endpoint import app
 
 def main():
     sensors: List[str] = ["rainfall", "soil_moisture", "river_stage"]
@@ -22,4 +23,4 @@ def main():
             print("CSV files available at data/")
 
 if __name__ == '__main__':
-    main()
+    app.run()

@@ -3,7 +3,9 @@ from data_fetching.delete_data_files import delete_all_csv
 from typing import List
 from data_fetching.validate_data import validate_data
 from api.endpoint import app
-from data_fetching.stock_in_db import stock_in_database
+from manage_database.stock_in_db import stock_in_database
+from manage_database.delete_tables import drop_all_tables
+
 import pandas as pd
 
 def main():
@@ -15,8 +17,11 @@ def main():
     valid_files = validate_data()
     if len(valid_files) != 0:
         for i in range(len(valid_files)):
+            table_name = valid_files[i][5:-4]
             df = pd.read_csv(str(valid_files[i]))
-            stock_in_database(df,"test"+str(i))
+            stock_in_database(df,table_name)
+        
+        drop_all_tables(valid_files)
         # store_data(valid_files) - store data on our database
         # final_data = clean_data(valid_files) - cleaning process
         # send_user_data(user, final_data)
@@ -28,4 +33,5 @@ def main():
             print("CSV files available at data/")
 
 if __name__ == '__main__':
+    #app.run()
     main()

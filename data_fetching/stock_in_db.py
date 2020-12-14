@@ -1,12 +1,13 @@
 from sqlalchemy import create_engine
 import pymysql
 import pandas as pd
- 
+import numpy as np
+
 def stock_in_database(dataFrame,tableName):
     # root is your username DB
     # Password123@ is your password
-    # potamois is db name 
-    sqlEngine = create_engine('mysql+pymysql://root:Password123@@127.0.0.1/potamoi', pool_recycle=3600)
+    # potamois is db name
+    sqlEngine = create_engine('postgres://hxetmggocnqbwo:df4b2b22a0a50c7ec24278cbab7166543326f5282759659ee14edc3996321c32@ec2-99-81-238-134.eu-west-1.compute.amazonaws.com:5432/d2qcvkc04p22jl', pool_recycle=3600)
     dbConnection = sqlEngine.connect()
 
     try:
@@ -15,16 +16,14 @@ def stock_in_database(dataFrame,tableName):
     except ValueError as vx:
         print(vx)
 
-    except Exception as ex:   
+    except Exception as ex:
         print(ex)
 
     else:
-        print("Table %s created successfully."%tableName);   
+        print("Table %s created successfully."%tableName);
 
     finally:
         dbConnection.close()
- 
- 
-
-        
-     
+if __name__ == '__main__':
+    df = pd.DataFrame(np.random.rand(10, 1), columns=["value"])
+    stock_in_database(df, "test")

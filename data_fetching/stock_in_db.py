@@ -24,6 +24,3 @@ def stock_in_database(dataFrame,tableName):
 
     finally:
         dbConnection.close()
-if __name__ == '__main__':
-    df = pd.DataFrame(np.random.rand(10, 1), columns=["value"])
-    stock_in_database(df, "test")

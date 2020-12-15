@@ -3,7 +3,9 @@ import pymysql
 import pandas as pd
 import numpy as np
 from data_integration.connect_db import connect_db
+import streamlit as st
 
+@st.cache
 def stock_in_database(dataFrame,tableName):
     sqlEngine , dbConnection = connect_db()
 

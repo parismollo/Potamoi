@@ -32,7 +32,7 @@ def run_simulation():
 
 def main():
     st.title("Potamoi")
-    run_simulation()
+    # run_simulation()
 
 if __name__ == '__main__':
     main()

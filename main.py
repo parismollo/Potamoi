@@ -7,7 +7,7 @@ from data_fetching.validate_data import validate_data
 import streamlit as st
 import pandas as pd
 
-def main():
+def run_simulation():
     sensors: List[str] = ["rainfall", "soil_moisture", "river_stage"]
     print("\n----------------Data Generation----------------")
     n_rows = int(input("\nInput the number of rows you'd like to generate: "))
@@ -31,7 +31,10 @@ def main():
         else:
             print("CSV files available at data/")
 
+def main():
+    st.title("Hello!")
+
 if __name__ == '__main__':
-    st.title("Hello Gary")
+    main()
     # app.run()
     # main()

@@ -29,7 +29,7 @@ def main():
     image.thumbnail((120, 120))
     st.image(image)
     st.title("Potamoi CS")
-    
+
     uploaded_file = get_file()
     valid = validate_data(uploaded_file)
     if valid:
@@ -38,7 +38,7 @@ def main():
         if not table_name:
             st.warning('Please input a table name.')
             st.stop()
-        stock_in_database(uploaded_file,table_name)
+        # stock_in_database(uploaded_file,table_name)
         st.success('Thank you for inputting a table name. Data is being uploaded to the cloud')
         st.button("Iniate Data Cleaning module")
     else:

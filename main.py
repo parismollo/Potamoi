@@ -2,10 +2,10 @@ from data_fetching.data_gen import generate_data_files
 from data_fetching.delete_data_files import delete_all_csv
 from typing import List
 from data_fetching.validate_data import validate_data
-from api.routes import app
+# from api.routes import app
 from data_integration.stock_in_db import stock_in_database
 from data_integration.delete_tables import drop_all_tables
-
+import streamlit as st
 import pandas as pd
 
 def main():
@@ -33,5 +33,6 @@ def main():
             print("CSV files available at data/")
 
 if __name__ == '__main__':
-    app.run()
+    st.title("Hello Gary")
+    # app.run()
     # main()

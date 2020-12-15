@@ -1,1 +1,1 @@
-web: gunicorn main:potamoi
+web: sh setup.sh && streamlit run main.py

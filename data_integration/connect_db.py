@@ -2,7 +2,7 @@ from sqlalchemy import create_engine , inspect
 import pymysql
 import sys
 import os
-from config import Config
+# from config import Config
 # from api.routes import app
 
 # app.config.from_object(Config)

@@ -3,6 +3,7 @@
 import pandas as pd # data manipulation
 from sklearn.impute import SimpleImputer # missing values imputation
 import numpy as np # support for n-dimensions matrices and arrays
+import streamlit as st
 
 class Cleaner:
     def __init__(self, df):
@@ -62,6 +63,7 @@ class Cleaner:
             if col_type not in accepted_types:
                 print("Ops!")
                 raise Exception(f"Column type '{col_type}' not supported")
+        st.write(f"Supported col types: **{accepted_types}**")
         print("Ok!")
         return True
 
@@ -81,6 +83,7 @@ class Cleaner:
             df.drop(date_cols, axis=1, inplace=True)
 #             print("Everthing ok for index validation.")
             self.df = df
+            st.write(f" Timeseries begins at **{self.df.index[0]}** and finishes at **{self.df.index[-1]}**")
             print("Ok!")
 
         except Exception as e:
@@ -107,7 +110,9 @@ class Cleaner:
     def drop_duplicates(self, option='first'):
         '''This method returns dataframe after dropping duplicates'''
         print("Dropping duplicates...", end=" ")
-        self.df = self.df.drop_duplicates(keep = option)
+        aux = self.df.drop_duplicates(keep = option)
+        st.write(f"**{self.df.shape[0] - aux.shape[0]} duplicates** were found and removed")
+        self.df = aux
         print("Ok!")
 
     def perc_of_missing_values(self, df):
@@ -159,6 +164,7 @@ class Cleaner:
                 print("Ok!")
                 print("**********")
                 print(f"{missing_values} missing values were found")
+                st.write(f"**{missing_values} missing values** were found and predicted")
                 print("**********")
             except Exception as e:
                 print("Ops!")
@@ -181,6 +187,7 @@ class Cleaner:
             if len(total_outliers) != 0:
                 print("**********")
                 print(f"{len(total_outliers)} outliers were found.")
+                st.write(f"**{len(total_outliers)} outliers** were replaced.")
                 print("**********")
         except Exception as e:
             print("Ops!")

@@ -9,13 +9,13 @@ from data_integration.stock_in_db import stock_in_database
 import streamlit as st
 import pandas as pd
 from user_interface.params import sidebar_params
+from user_interface.home import home
 # Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 st.set_page_config(
      page_title="Potamoi",
      page_icon="🌊",
      initial_sidebar_state="expanded",
  )
-
 
 def get_file():
     uploaded_file = st.file_uploader("Choose a file", type=[".csv", ".json"])
@@ -27,9 +27,20 @@ def get_file():
 def main():
     image = Image.open('static/wave.png')
     image.thumbnail((120, 120))
-    st.image(image)
-    st.title("Potamoi CS")
+    st.sidebar.image(image)
+    st.sidebar.title("Potamoi CS")
+    app_mode = st.sidebar.selectbox(
+        "App Mode",
+        ("Datasets", "Data Quality Control")
+    )
 
+    if app_mode == "Datasets":
+        home()
+    elif app_mode == "Data Quality Control":
+        data_quality_control()
+
+
+def data_quality_control():
     uploaded_file = get_file()
     # valid = validate_data(uploaded_file)
 # if valid:
@@ -43,11 +54,5 @@ def main():
     # if st.checkbox("Iniate Data Cleaning module"):
     sidebar_params(uploaded_file)
 
-    # else:
-    #     st.stop()
-
-    # else:
-    #     st.write("File not valid")
-    #     st.stop()
 if __name__ == '__main__':
     main()

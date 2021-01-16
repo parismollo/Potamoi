@@ -2,6 +2,7 @@ import streamlit as st
 from data_cleaning.cleaner import Cleaner
 
 # @st.cache
+@st.cache(suppress_st_warning=True)
 def pipeline(dataframe, n_rows, n_cols, required_cols, timestamp_cols):
     c = Cleaner(dataframe)
     #   Run cleaning techniques
@@ -19,6 +20,7 @@ def pipeline(dataframe, n_rows, n_cols, required_cols, timestamp_cols):
     st.success("Test 6️⃣ successeful: Restore missing values 💟")
     c.replace_outliers()
     st.success("Test 7️⃣ successeful: Replace outliers 💘")
+
 #   Print statistical report
 #   Plot dataframe
 

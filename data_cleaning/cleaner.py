@@ -67,7 +67,7 @@ class Cleaner:
         print("Ok!")
         return True
 
-
+        
     def set_timestamp_index(self, date_cols:list):
         '''
         This method get date columns and convert them to datetime format.

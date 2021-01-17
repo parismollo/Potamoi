@@ -21,13 +21,14 @@ class Cleaner:
         self.check_emptiness()
 
     def check_type(self):
-        self.report["Type"] = print(type(self.df))
+        aux = type(self.df)
+        self.report["Type"] = str(aux)
         if isinstance(self.df, pd.DataFrame):
-            str = "Type checked! Ready to go."
-            print(str)
+            text = "Type checked! Ready to go."
+            print(text)
         else:
-            str = "Variable inputed is not valid, please input a dataframe object"
-            raise Exception(str)
+            text = "Variable inputed is not valid, please input a dataframe object"
+            raise Exception(text)
 
     def check_emptiness(self):
         '''
@@ -67,7 +68,8 @@ class Cleaner:
         '''
         This method checks for supported columns types
         '''
-        self.report["Cols type"] = self.df.dtypes.to_dict()
+        values = list(self.df.dtypes.unique())
+        self.report["Cols type"] = str(values)
         print("Checking columns types ...", end=" ")
         for col_type in self.df.dtypes:
             if col_type not in accepted_types:
@@ -174,7 +176,7 @@ class Cleaner:
                 self.df = self.imputer(self.df, strategy)
                 print("Ok!")
                 print(f"{missing_values} missing values were found")
-                self.report["N° of missing values"] = missing_values
+                self.report["N° of missing values"] = int(missing_values)
                 # st.write(f"**{missing_values} missing values** were found and predicted")
             except Exception as e:
                 print("Ops!")

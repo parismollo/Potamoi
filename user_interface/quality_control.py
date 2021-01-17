@@ -5,9 +5,15 @@ from io import BytesIO
 import pandas as pd
 from PIL import Image
 import requests
+from datetime import datetime
+
+
+dataset_profile = {}
 
 def data_quality_control():
+
     st.title("Data Quality Control")
+    dataset_profile["User Session"] = get_time_str()
     text ='''
     This is Potamoi's **Data Quality Control** API, here you will be able to clean and prepare your data for a multiple number of
     purposes, such as **model training, exploratory analysis and data collection**.
@@ -23,7 +29,8 @@ def data_quality_control():
     * Download the data ready for use!
     '''
     st.success(text_2)
-    st.sidebar.selectbox("Cleaning Level", ("Level 1", "Level 2", "Level 3"))
+    level = st.sidebar.selectbox("Cleaning Level", ("Level 1", "Level 2", "Level 3"))
+    dataset_profile["Cleaning Level"] = level
     image = Image.open('static/potamoi_diagram.png')
     st.image(image)
 
@@ -32,16 +39,25 @@ def data_quality_control():
 
     with st.spinner("Loading data..."):
         st.write(uploaded_file)
-    table_name = st.text_input("Dataset Name")
 
+    table_name = st.text_input("Dataset Name")
+    dataset_profile["Dataset Name"] = table_name
+    print(uploaded_file.shape)
+    # st.write(dataset_profile)
     if not table_name:
         st.warning('Please input a name for this dataset.')
         st.stop()
         # stock_in_database(uploaded_file,table_name)
     # st.info('Thank you for inputting a table name. Data is being uploaded to the cloud')
     # if st.checkbox("Iniate Data Cleaning module"):
+
     st.sidebar.subheader("Set your parameters")
     sidebar_params(uploaded_file)
+
+
+def get_time_str():
+    now = datetime.now()
+    return now.strftime("%H:%M:%S")
 
 
 def get_file():
@@ -73,10 +89,11 @@ def sidebar_params(df):
         * Outliers
         '''
         with st.spinner(text):
-            df = pipeline(df, n_rows, n_cols, req_cols, timestamp_cols)
+            df = pipeline(df, n_rows, n_cols, req_cols, timestamp_cols, dataset_profile)
         # stock_in_database(df,table_name)
         tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
+        st.write(dataset_profile)
     else:
         st.error("Set your parameters **before** starting the cleaning process")
         st.stop()
@@ -88,7 +105,6 @@ def sidebar_params(df):
 #     writer.save()
 #     processed_data = output.getvalue()
 #     return processed_data
-
 
 def download_link(object_to_download, download_filename, download_link_text):
     """

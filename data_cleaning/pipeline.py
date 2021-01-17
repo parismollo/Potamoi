@@ -2,9 +2,9 @@ import streamlit as st
 from data_cleaning.cleaner import Cleaner
 import time
 
-def pipeline(dataframe, n_rows, n_cols, required_cols, timestamp_cols):
+def pipeline(dataframe, n_rows, n_cols, required_cols, timestamp_cols, dataset_profile):
     placeholder = st.empty()
-    c = Cleaner(dataframe)
+    c = Cleaner(dataframe, dataset_profile)
 
     placeholder.text("0: Checking data shape...")
     c.check_shape(expected_shape=(n_rows, n_cols))
@@ -31,5 +31,5 @@ def pipeline(dataframe, n_rows, n_cols, required_cols, timestamp_cols):
     c.replace_outliers()
     time.sleep(1)
     placeholder.text("Cleaning process completed")
-    
+
     return c.df

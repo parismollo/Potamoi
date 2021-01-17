@@ -5,11 +5,13 @@ from sklearn.impute import SimpleImputer # missing values imputation
 import numpy as np # support for n-dimensions matrices and arrays
 import streamlit as st
 import time
+import logging
 
 
 class Cleaner:
-    def __init__(self, df):
+    def __init__(self, df, dataset_profile):
         self.df = df
+        self.report = dataset_profile
         self.check_type()
         self.numerical_cols = [cname for cname in df.columns if
                 df[cname].dtype in ['int64', 'float64']]
@@ -18,17 +20,20 @@ class Cleaner:
                     df[cname].dtype == "object"]
         self.check_emptiness()
 
-
     def check_type(self):
+        self.report["Type"] = print(type(self.df))
         if isinstance(self.df, pd.DataFrame):
-            print("Type checked! Ready to go.")
+            str = "Type checked! Ready to go."
+            print(str)
         else:
-            raise Exception("Variable inputed is not valid, please input a dataframe object")
+            str = "Variable inputed is not valid, please input a dataframe object"
+            raise Exception(str)
 
     def check_emptiness(self):
         '''
         This method  checks if the dataframe is empty.
         '''
+        self.report["Empty"] = self.df.empty
         if self.df.empty:
             raise Exception("Please insert a non-empty dataframe")
 
@@ -36,6 +41,7 @@ class Cleaner:
         '''
         This method checks if the shape of the dataframe is valid.
         '''
+        self.report["Shape"] = self.df.shape
         print("Checking Shape...", end=" ")
         if expected_shape is None or expected_shape == self.df.shape:
             print("Ok!")
@@ -46,6 +52,7 @@ class Cleaner:
 
     def check_required_cols(self, required_cols):
         ''' This method checks if all required columns are in the dataset provided '''
+        self.report["Required Cols"] = required_cols
         print("Checking required columns...", end=" ")
         for c in required_cols:
             if c not in self.df.columns:
@@ -60,6 +67,7 @@ class Cleaner:
         '''
         This method checks for supported columns types
         '''
+        self.report["Cols type"] = self.df.dtypes.to_dict()
         print("Checking columns types ...", end=" ")
         for col_type in self.df.dtypes:
             if col_type not in accepted_types:
@@ -113,6 +121,7 @@ class Cleaner:
         '''This method returns dataframe after dropping duplicates'''
         print("Dropping duplicates...", end=" ")
         aux = self.df.drop_duplicates(keep = option)
+        self.report["N° of duplicates"] = self.df.shape[0] - aux.shape[0]
         # st.write(f"**{self.df.shape[0] - aux.shape[0]} duplicates** were found and removed")
         self.df = aux
         print("Ok!")
@@ -165,6 +174,7 @@ class Cleaner:
                 self.df = self.imputer(self.df, strategy)
                 print("Ok!")
                 print(f"{missing_values} missing values were found")
+                self.report["N° of missing values"] = missing_values
                 # st.write(f"**{missing_values} missing values** were found and predicted")
             except Exception as e:
                 print("Ops!")
@@ -186,6 +196,7 @@ class Cleaner:
             print("Ok!")
             if len(total_outliers) != 0:
                 print(f"{len(total_outliers)} outliers were found.")
+                self.report["N° of outliers"] = len(total_outliers)
                 # st.write(f"**{len(total_outliers)} outliers** were replaced.")
         except Exception as e:
             print("Ops!")

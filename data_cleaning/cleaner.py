@@ -4,6 +4,8 @@ import pandas as pd # data manipulation
 from sklearn.impute import SimpleImputer # missing values imputation
 import numpy as np # support for n-dimensions matrices and arrays
 import streamlit as st
+import time
+
 
 class Cleaner:
     def __init__(self, df):
@@ -40,7 +42,7 @@ class Cleaner:
             return True
         elif self.df.shape != expected_shape:
             print("Ops!")
-            raise Exception(f"\nSorry, dataframe shape not valid\nExpected shape: {expected_shape}\nGiven shape: {df.shape}")
+            raise Exception(f"\nSorry, dataframe shape not valid\nExpected shape: {expected_shape}\nGiven shape: {self.df.shape}")
 
     def check_required_cols(self, required_cols):
         ''' This method checks if all required columns are in the dataset provided '''
@@ -63,11 +65,11 @@ class Cleaner:
             if col_type not in accepted_types:
                 print("Ops!")
                 raise Exception(f"Column type '{col_type}' not supported")
-        st.write(f"Supported col types: **{accepted_types}**")
+        # st.write(f"Supported col types: **{accepted_types}**")
         print("Ok!")
         return True
 
-        
+
     def set_timestamp_index(self, date_cols:list):
         '''
         This method get date columns and convert them to datetime format.
@@ -83,7 +85,7 @@ class Cleaner:
             df.drop(date_cols, axis=1, inplace=True)
 #             print("Everthing ok for index validation.")
             self.df = df
-            st.write(f" Timeseries begins at **{self.df.index[0]}** and finishes at **{self.df.index[-1]}**")
+            # st.write(f" Timeseries begins at **{self.df.index[0]}** and finishes at **{self.df.index[-1]}**")
             print("Ok!")
 
         except Exception as e:
@@ -111,7 +113,7 @@ class Cleaner:
         '''This method returns dataframe after dropping duplicates'''
         print("Dropping duplicates...", end=" ")
         aux = self.df.drop_duplicates(keep = option)
-        st.write(f"**{self.df.shape[0] - aux.shape[0]} duplicates** were found and removed")
+        # st.write(f"**{self.df.shape[0] - aux.shape[0]} duplicates** were found and removed")
         self.df = aux
         print("Ok!")
 
@@ -162,10 +164,8 @@ class Cleaner:
                     self.df = self.add_missing_label(self.df, list(self.get_cols_with_missing(self.df).index))
                 self.df = self.imputer(self.df, strategy)
                 print("Ok!")
-                print("**********")
                 print(f"{missing_values} missing values were found")
-                st.write(f"**{missing_values} missing values** were found and predicted")
-                print("**********")
+                # st.write(f"**{missing_values} missing values** were found and predicted")
             except Exception as e:
                 print("Ops!")
                 print(f"Something went wrong here: {e}. Missing values restoration failed!")
@@ -185,10 +185,8 @@ class Cleaner:
                 self.df[col].fillna(median, inplace=True)
             print("Ok!")
             if len(total_outliers) != 0:
-                print("**********")
                 print(f"{len(total_outliers)} outliers were found.")
-                st.write(f"**{len(total_outliers)} outliers** were replaced.")
-                print("**********")
+                # st.write(f"**{len(total_outliers)} outliers** were replaced.")
         except Exception as e:
             print("Ops!")
             print(f"Something went wrong here: {e}. Replacing outliers failed!")

@@ -1,6 +1,6 @@
 import streamlit as st
 import base64
-from data_cleaning.run_cleaner import pipeline
+from data_cleaning.pipeline import pipeline
 from io import BytesIO
 import pandas as pd
 from PIL import Image
@@ -27,23 +27,25 @@ def data_quality_control():
     image = Image.open('static/potamoi_diagram.png')
     st.image(image)
 
-    st.header("Start Here")
+    st.subheader("Start Here")
     uploaded_file = get_file()
-    # valid = validate_data(uploaded_file)
-# if valid:
-    st.write(uploaded_file)
-    table_name = st.text_input("Table Name")
+
+    with st.spinner("Loading data..."):
+        st.write(uploaded_file)
+    table_name = st.text_input("Dataset Name")
+
     if not table_name:
-        st.warning('Please input a table name.')
+        st.warning('Please input a name for this dataset.')
         st.stop()
         # stock_in_database(uploaded_file,table_name)
-    st.info('Thank you for inputting a table name. Data is being uploaded to the cloud')
+    # st.info('Thank you for inputting a table name. Data is being uploaded to the cloud')
     # if st.checkbox("Iniate Data Cleaning module"):
+    st.sidebar.subheader("Set your parameters")
     sidebar_params(uploaded_file)
 
 
 def get_file():
-    uploaded_file = st.file_uploader("Choose a file", type=[".csv", ".json"])
+    uploaded_file = st.file_uploader("Choose a file", type=[".csv"])
     if uploaded_file is None:
         st.stop()
     return pd.read_csv(uploaded_file)
@@ -51,7 +53,7 @@ def get_file():
 
 def sidebar_params(df):
     # check shape params (shape): tuple
-    print(df.shape)
+
     n_rows = st.sidebar.number_input("N° of rows?")
     n_cols = st.sidebar.number_input("N° of cols?")
     # check required cols (cols): list
@@ -59,14 +61,24 @@ def sidebar_params(df):
     req_cols = [required_col]
     # timestamp index (cols) : list
     timestamp_cols = st.sidebar.multiselect("Data Time cols?", df.columns)
-    print(timestamp_cols)
 
-    if st.button("Ready?"):
-        df = pipeline(df, n_rows, n_cols, req_cols, timestamp_cols)
+    if st.button("Start Cleaning"):
+        text = '''
+        Running cleaning techniques...\n
+        * Data shape
+        * Data columns
+        * Timestamp
+        * Duplicates
+        * Missing Values
+        * Outliers
+        '''
+        with st.spinner(text):
+            df = pipeline(df, n_rows, n_cols, req_cols, timestamp_cols)
         # stock_in_database(df,table_name)
         tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
     else:
+        st.error("Set your parameters **before** starting the cleaning process")
         st.stop()
 
 # def to_excel(df):
@@ -98,11 +110,3 @@ def download_link(object_to_download, download_filename, download_link_text):
     b64 = base64.b64encode(object_to_download.encode()).decode()
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-
-from streamlit_lottie import st_lottie
-
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()

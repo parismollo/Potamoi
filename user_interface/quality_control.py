@@ -3,6 +3,50 @@ import base64
 from data_cleaning.run_cleaner import pipeline
 from io import BytesIO
 import pandas as pd
+from PIL import Image
+import requests
+
+def data_quality_control():
+    st.title("Data Quality Control")
+    text ='''
+    This is Potamoi's **Data Quality Control** API, here you will be able to clean and prepare your data for a multiple number of
+    purposes, such as **model training, exploratory analysis and data collection**.
+    '''
+    st.info(text)
+    st.header("How it works")
+    text_2 = '''
+    Potamoi provides **3 levels of data quality control**.
+    The more cleaning levels you want to apply to your data, **more complex and more input we need from the user.**\n
+    * Upload your csv file
+    * Select the cleaning level
+    * Input the preprocessing parameters
+    * Download the data ready for use!
+    '''
+    st.success(text_2)
+    st.sidebar.selectbox("Cleaning Level", ("Level 1", "Level 2", "Level 3"))
+    image = Image.open('static/potamoi_diagram.png')
+    st.image(image)
+
+    st.header("Start Here")
+    uploaded_file = get_file()
+    # valid = validate_data(uploaded_file)
+# if valid:
+    st.write(uploaded_file)
+    table_name = st.text_input("Table Name")
+    if not table_name:
+        st.warning('Please input a table name.')
+        st.stop()
+        # stock_in_database(uploaded_file,table_name)
+    st.info('Thank you for inputting a table name. Data is being uploaded to the cloud')
+    # if st.checkbox("Iniate Data Cleaning module"):
+    sidebar_params(uploaded_file)
+
+
+def get_file():
+    uploaded_file = st.file_uploader("Choose a file", type=[".csv", ".json"])
+    if uploaded_file is None:
+        st.stop()
+    return pd.read_csv(uploaded_file)
 
 
 def sidebar_params(df):
@@ -54,17 +98,11 @@ def download_link(object_to_download, download_filename, download_link_text):
     b64 = base64.b64encode(object_to_download.encode()).decode()
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-# @st.cache(suppress_st_warning=True)
-def get_shape_params():
-    pass
 
+from streamlit_lottie import st_lottie
 
-
-# @st.cache(suppress_st_warning=True)
-def get_required_cols_params():
-    pass
-
-
-# @st.cache(suppress_st_warning=True)
-def get_timestamp_cols_params(df):
-    pass
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()

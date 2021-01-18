@@ -91,9 +91,10 @@ def sidebar_params(df):
         with st.spinner(text):
             df = pipeline(df, n_rows, n_cols, req_cols, timestamp_cols, dataset_profile)
         # stock_in_database(df,table_name)
+        st.subheader("Cleaning Report")
+        st.write(dataset_profile)
         tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
-        st.write(dataset_profile)
     else:
         st.error("Set your parameters **before** starting the cleaning process")
         st.stop()

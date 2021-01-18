@@ -5,7 +5,6 @@ from sklearn.impute import SimpleImputer # missing values imputation
 import numpy as np # support for n-dimensions matrices and arrays
 import streamlit as st
 import time
-import logging
 
 
 class Cleaner:
